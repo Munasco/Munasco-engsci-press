@@ -1,3 +1,11 @@
+/**
+AUTHOR: SAIMA ALI
+LATEST WORKING VERSION 
+FEBRUARY 2ND, 2020
+ESC190H1S PROJECT
+SNAKE API
+ **/
+
 #include <stdlib.h>
 #include <stdio.h>
 
