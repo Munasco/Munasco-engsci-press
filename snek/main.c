@@ -52,7 +52,7 @@ void play_game() {
 				printf("DOWN");
 			}
 		} printf("\n");
-		sleep(1);
+		usleep(555550);
 	}
 	end_game(&board);
 
