@@ -9,13 +9,31 @@ SNAKE API
 #include <stdlib.h>
 #include <stdio.h>
 
-#define BOARD_SIZE 10 //default 10
 #define CYCLE_ALLOWANCE 1.5
+#define BOARD_SIZE 10
+
+#define LIFE_SCORE 1 //score awarded for simply staying alive one frame
+
+#define AXIS_X -1
+#define AXIS_Y 1
+
+#define UP -1
+#define DOWN 1
+#define LEFT -1
+#define RIGHT 1
+
+#define AXIS_INIT AXIS_Y
+#define DIR_INIT DOWN
+
+#define x 0
+#define y 1
+
+#define MOOGLE_POINT 20
+#define HARRY_MULTIPLIER 3
 
 int CURR_FRAME;
 int SCORE;
 int MOOGLE_FLAG;
-int TIME_OUT;
 
 typedef struct SnekBlock{
 	int coord[2];
@@ -43,3 +61,5 @@ int is_failure_state(int axis, int direction,  GameBoard *gameBoard);
 int advance_frame(int axis, int direction,  GameBoard *gameBoard);
 void end_game(GameBoard **board);
 void show_board(GameBoard* gameBoard);
+int get_score();
+

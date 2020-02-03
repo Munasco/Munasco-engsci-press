@@ -5,6 +5,7 @@ You may run (1):
 	./snek_AI
 
 To test it out.
+
 As you modify main.c, you will need to recompile using (2):
 	
 	gcc main.c -o main.o -c
