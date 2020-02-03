@@ -1,5 +1,6 @@
 '''
 February 9, 2020
+Saima Ali
 Porting the Snek API in C to Python
 Tested in the ESC190 VM
 
@@ -75,8 +76,6 @@ def wrap_func(lib, funcname, restype, argtypes):
     func.argtypes = argtypes
     return func
 
-
-# init board
 init_board = wrap_func(snek_lib, 'init_board', POINTER(GameBoard), [])
 show_board = wrap_func(snek_lib, 'show_board', None, [POINTER(GameBoard)])
 advance_frame = wrap_func(snek_lib, 'advance_frame', c_int, [c_int, c_int, POINTER(GameBoard)])
