@@ -27,7 +27,7 @@ class Engsci_Press:
         dictionary_format = 'projects/dictionary/Dictionary_in_csv/'
         for i in range(66, 91):
             filename = dictionary_format + str(chr(i)) + '.csv' 
-            self.dictionary_tree.balanced_insert(Node(self.process_dictionary(filename)))
+            self.dictionary_tree.balanced_insert(Node2(self.process_dictionary(filename)))
         return self.dictionary_tree
     
     def search(self, root, key):
@@ -37,15 +37,26 @@ class Engsci_Press:
             else:
                 root = root.right
         return root
-    
+    def searcher(self, key):
+        peek = self.dictionary_tree.root
+        peet = self.search(peek, key)
+        return peet
+    def searchier(self, root, key):
+        fleek = root
+        p = self.search(fleek, key)
+        return p
     def output_definition(self, phrase):
         phrase = phrase.capitalize()
-        z = self.search(self.dictionary_tree.root, phrase[0])
-        p = self.search(z.val.root, phrase)
-        x = []
-        for i in p.val:
-            x.append(i.definition)
-        return x
+        z = self.searcher(phrase[0])
+        if(z):
+            p = self.searchier(z.val.root, phrase)
+            x = []
+            for i in p.val:
+                x.append(i.definition)
+                x.append('\n')
+            return ''.join(x)
+        else:
+            return 'Not found'
         
 
     def findName(self, node, language_name):
@@ -62,7 +73,8 @@ if __name__== '__main__':
     dict = Engsci_Press()
     x = time.time()
     dict.collate_bsts()
-    print(dict.output_definition("Azure"))
+    print(dict.output_definition("Babe"))
     y = time.time()
+    print(y-x)
     
 
