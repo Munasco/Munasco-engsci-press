@@ -202,22 +202,62 @@ class BalancingTree:
 	def height(self, node):
 		return node.height if node else -1
 
-
+	'''
 	def inOrder(self, node):
 		if node is None:
 			return	
 		self.inOrder(node.left)
 		print(node._val)
 		self.inOrder(node.right)
-	
-
-	def preOrder(self, node):
+	'''
+	def inOrder(self, root):
+		result = []
+		if root:
+			result += self.inOrder(root.left)
+			result.append(root.val)
+			result += self.inOrder(root.right)
+		return result
+	count =0
+	def preorder_count(self, node):
 		if node is None:
 			return
-		print(node._val)
-		self.inOrder(node.left)
-		self.inOrder(node.right)
-
+		self.count += 1
+		self.preorder_count(node.left)
+		self.preorder_count(node.right)
+		return self.count
+	
+	def preOrder(self, root):
+	    result = []
+	    if root:
+	        result.append(root._val)
+	        result += self.preOrder(root.left)
+	        result += self.preOrder(root.right)
+	    return result
+		
+	def maximum(self, root: Node):
+	    while root.right:
+	        root = root.right
+	    return root
+	def minimum(self, root:Node):
+		# Try implementing (similar to maximum)
+		while root.left:
+			root = root.left
+		return root
+	def predecessor(self, n:Node):
+	    if n.left:
+	        return self.maximum(n.left)
+	    while n and n == n.parent.left:
+	        n = n.parent
+	    return n.parent
+	def successor(self, n:Node):
+	    # Try implementing (similar to predecessor)
+		if n.right:
+			return self.minimum(n.right)
+		while n and n==n.parent.right:
+			n = n.parent
+		return n.parent
+		
+		 
 
 if __name__ == "__main__":
 	with open('data/us_languages.csv') as f:
