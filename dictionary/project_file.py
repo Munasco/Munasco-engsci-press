@@ -2,6 +2,26 @@ import csv
 import time
 from avltrees import BalancingTree
 from lab0_utilities import *
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
+from google_trans import Translator
+from google_trans import LANGCODES
+
+
+def lev(len_a, len_b, str1, str2):
+    if (min(len_a, len_b) == 0):
+        return max(len_a, len_b)  
+    else:
+        f = lev(len_a-1, len_b, str1, str2) + 1
+        g = lev(len_a, len_b-1, str1, str2) + 1
+        z = 1 if str1[len_a-1] != str2[len_b-1] else 0
+        h = lev(len_a-1, len_b-1, str1, str2) + z   
+        return min(f, g, h)
+
+def collect_string(a, b):
+    return lev(len(a), len(b), a, b)
+
+
 
 class Engsci_Press:
     def __init__(self, author):
@@ -117,8 +137,8 @@ class Engsci_Press:
             z = self.searcher(str(chr(i)))
             size += z.val.preorder_count(z.val.root)
         return size
-    def push_tofile(self):
-        k = open("slack.txt", "w")
+    def push_tofile(self, filename):
+        k = open(filename, "w")
         for i in range(65, 91): 
             z = self.searcher(str(chr(i)))
             n = z.val.inOrder(z.val.root)
@@ -127,6 +147,33 @@ class Engsci_Press:
                     k.write(p.name + ' ' + p.definition)
                 k.write('\n')
         k.close()
+    def suggest_word(self, word, threshold = None):
+        word = word.capitalize()
+        #answer = 15
+        #suggested_word = ''
+        n = []
+        for i in range(65, 91): 
+            z = self.searcher(str(chr(i)))
+            n += z.val.preOrder(z.val.root)
+            
+            '''
+            for i in n:
+                lent = collect_string(word, i) 
+                if(lent < answer):
+                    answer = lent
+                    suggested_word = i
+                if (answer == 0):
+                    return suggested_word
+            '''
+        z = process.extractOne(word, n)
+        if(threshold):
+            if(z[1] >= threshold):
+                return z[0]
+            else:
+                return "No suggestions"
+        else:
+            return z[0] 
+
     def reference_word(self, word: str, subset_size):
         word = word.capitalize()
         z = self.searcher(word[0])
@@ -145,9 +192,34 @@ class Engsci_Press:
                     answer.insert(0, previous._val)
                     count += 1
         return answer
+    
+    def translate_word(self, word, destination = None, source = None):
+        translator = Translator()
+        if(destination):
+            destination = LANGCODES[destination.lower()]
+            if(source):
+                source = LANGCODES[source.lower()]
+                result = translator.translate(word, dest= destination, src=source)
+                return result.text.capitalize()
+            else:
+                result = translator.translate(word, dest= destination)
+                return result.text.capitalize()
+        else:
+            if(source):
+                source = LANGCODES[source.lower()]
+                result = translator.translate(word, src=source)
+                return result.text.capitalize()
+            else:
+                result = translator.translate(word)
+                return result.text.capitalize()
 
 
 
+
+
+
+
+ 
 if __name__== '__main__':
     dict = Engsci_Press("Vicky")
     x = time.time()
@@ -158,8 +230,10 @@ if __name__== '__main__':
     print(dict.next_word("millet"))
     print(dict.subset_words("push"))
     print(dict.size())
-    print(dict.reference_word("lambaste", 4))
-    dict.push_tofile()
+    print(dict.reference_word("lambaste", 3))
+    dict.push_tofile("slack.txt")
+    print(dict.suggest_word("Slaeek", 80))
+    print(dict.translate_word("buenos dias", source="spanish"))
     y = time.time()
     print(y-x)
 
