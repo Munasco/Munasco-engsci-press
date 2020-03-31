@@ -1,6 +1,6 @@
 from lab0_utilities import *
 	
-
+'''
 # NOTE - Rotations and insertions and balancing are available from avl_trees_tester
 # build_trees_from_file is the main idea behind building the tree, getting this wrong implies
 # most of the testable functions are also wrong. Balancing is secondary, getting the nodes into 
@@ -71,7 +71,7 @@ class Languages:
 		self.findCounts(node.left, threshold, names)
 		self.findCounts(node.right, threshold, names)
 		return
-
+	'''
 
 class BalancingTree:
 	def __init__(self, root_node):
@@ -258,7 +258,7 @@ class BalancingTree:
 		return n.parent
 		
 		 
-
+'''
 if __name__ == "__main__":
 	with open('data/us_languages.csv') as f:
 		languages = Languages()
@@ -294,4 +294,5 @@ if __name__ == "__main__":
 
 	#print('Height difference for 1931', data_by_year[1931].get_height_difference())
 	#print('Height difference for 1941', data_by_year[1941].get_height_difference())
-	#print('Height difference for 1971', data_by_year[1971].get_height_difference())`
+	#print('Height difference for 1971', data_by_year[1971].get_height_difference())
+	'''

@@ -2,7 +2,6 @@ import csv
 import time
 from avltrees import BalancingTree
 from lab0_utilities import *
-from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 from google_trans import Translator
 from google_trans import LANGCODES
@@ -22,12 +21,11 @@ def collect_string(a, b):
     return lev(len(a), len(b), a, b)
 
 
-
 class Engsci_Press:
     def __init__(self, author):
         self.author = author
     def process_dictionary(self, filename):
-        with open(filename, 'r') as f:       
+        with open(filename, 'r', errors='replace') as f:       
             t = f.readline()
             t = t[1:]
             t.replace('\n', '')
@@ -196,9 +194,9 @@ class Engsci_Press:
     def translate_word(self, word, destination = None, source = None):
         translator = Translator()
         if(destination):
-            destination = LANGCODES[destination.lower()]
+            destination = LANGCODES.get(destination.lower(), None)
             if(source):
-                source = LANGCODES[source.lower()]
+                source = LANGCODES.get(source.lower(), None)
                 result = translator.translate(word, dest= destination, src=source)
                 return result.text.capitalize()
             else:
@@ -224,6 +222,7 @@ if __name__== '__main__':
     dict = Engsci_Press("Vicky")
     x = time.time()
     dict.collate_bsts()
+    print(LANGCODES.keys())
     print(dict.output_definition("Babe"))
     dict.add_word("Strtd", "(n.) Some asshole")
     print(dict.output_definition("Strtd"))
@@ -233,7 +232,7 @@ if __name__== '__main__':
     print(dict.reference_word("lambaste", 3))
     dict.push_tofile("slack.txt")
     print(dict.suggest_word("Slaeek", 80))
-    print(dict.translate_word("buenos dias", source="spanish"))
+    print(dict.translate_word("hello", destination="russian"))
     y = time.time()
     print(y-x)
 
